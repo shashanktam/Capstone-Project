@@ -4,8 +4,30 @@
     justify-content:center;
     align-items:center;
     /* padding-top:20px; */
-    gap:30px; 
+    border-radius:10px;
+    /* box-shadow:0 0 10px grey; */
+    padding:40px;
+    gap:50px;
     
+    
+}
+.horizontal-wrapper {
+    display: flex; /* Key property */
+    flex-direction: row; /* Force horizontal alignment */
+    align-items: center; /* Center them vertically relative to each other */
+    justify-content: center;
+    gap: 40px; /* Adjust this to change the space between images and form */
+}
+.form-card {
+    padding: 40px;
+    border-radius: 15px; /* Gives those nice rounded corners */
+    box-shadow:0 0 10px grey; /* Subtle shadow to make it 'pop' */
+    width: 400px; /* Controls how wide your form is */
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Vertical stack inside the card */
+    align-items: center; /* Center-aligns the logo, buttons, inputs inside the card */
+    margin-bottom: 20px; /* Prevents the card from touching the footer link if it's long */
 }
 body{
     text-align:center;
@@ -42,15 +64,21 @@ input{
 }
 
 .leftimg{
-    width:450px;
-    height:450px;
+    width:500px; 
+    height:auto;
+    border-radius:10px;
+    padding:40px;
+    margin: top 100px;
 }
 .rightimg{
-    width:450px;
-    height: 450px;
+    width:500px;
+    height:auto;
+    border-radius:10px;
+    padding:40px;
+    margin: top 100px;
 }
 .btn-up {
-    background-color: #003366; /* IITP Blue */
+    background-color: #003366; 
     color: white;
     border: none;
     font-size: 16px;
