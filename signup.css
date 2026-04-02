@@ -86,3 +86,10 @@ button:hover{
     margin-top:0;
 
 }
+#strengthBar {
+    height: 5px;
+    width: 0%;
+    background: red;
+    margin-top: 5px;
+    transition: 0.3s;
+}

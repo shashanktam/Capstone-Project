@@ -1,77 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up Page</title>
-    <link rel = "stylesheet" href = "signup.css">
-</head>
-<body>
-    <div class = "left">
-            <img src = "boy.png" height = "1000px">
-            
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <div class="left">
+      <img src="boy.png" height="1000px" />
     </div>
-    <div class = "main">
-        
-        <div class = "right">
-            <h1 >LIBRIS</h1>
-            <img src = "logo.png" class = "logo" width = "150px" >
-            <h2>IIT Patna Study Material Exchange</h2>
+    <div class="main">
+      <div class="right">
+        <h1>LIBRIS</h1>
+        <img src="logo.png" class="logo" width="150px" />
+        <h2>IIT Patna Study Material Exchange</h2>
 
-            <h2>Create Account</h2>
+        <h2>Create Account</h2>
 
-            <div class = "input-container">
-                <input type = "name" type = "text" placeholder = "Enter Name" required> 
+        <div class="input-container">
+          <input type="text" id="name" placeholder="Enter Name" required />
 
-                <input type = "email" type = "email" placeholder = "Enter Email Id " required>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter Email Id "
+            required
+          />
 
-                <input type = "password" type = "password" placeholder = "Enter Password" required>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+            required
+          />
+          <div id="strengthBar"></div>
 
-                <input type = "password" type = "password" placeholder = "Confirm Password" required>
-                
-                <p>Date Of Birth</p>
-                <input type = "date" name = "dob" required>
-                
-                <div class = "gender">
-                    <label>Gender:</label>
-                    <label style="margin: 20px;"><input type = "radio" name = "gender" > Male</label>
-                    <label style="margin: 20px;"><input type = "radio" name = "gender" > Female</label>
-                    <label style="margin: 20px;"><input type = "radio" name = "gender" > Other</label>
-                </div>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          />
 
-            
+          <p>Date Of Birth</p>
+          <input type="date" name="dob" required />
 
-                <!-- <label>Branch</label> -->
-                <select>
-                    <option>BS AICS</option>
-                    <option>BS-MS AICS</option>
-                    <option>BS CSDA</option>
-                    <option>BS MS CSDA</option> 
-                    <option>BBA</option>
-                    <option>MBA</option>
+          <div class="gender">
+            <label>Gender:</label>
+            <label style="margin: 20px"
+              ><input type="radio" name="gender" /> Male</label
+            >
+            <label style="margin: 20px"
+              ><input type="radio" name="gender" /> Female</label
+            >
+            <label style="margin: 20px"
+              ><input type="radio" name="gender" /> Other</label
+            >
+          </div>
 
-                </select>
-                <!-- <label>Semester</label> -->
-                <select>
-                    <option>Semester 1</option>
-                    <option>Semester 2</option>
-                    <option>Semester 3</option>
-                    <option>Semester 4</option> 
-                    <option>Semester 5</option>
-                    <option>Semester 6</option>
-                    <option>Semester 7</option>
-                    <option>Semester 8</option>
-                    
-                </select>
+          <!-- <label>Branch</label> -->
+          <select>
+            <option>BS AICS</option>
+            <option>BS-MS AICS</option>
+            <option>BS CSDA</option>
+            <option>BS MS CSDA</option>
+            <option>BBA</option>
+            <option>MBA</option>
+          </select>
+          <!-- <label>Semester</label> -->
+          <select>
+            <option>Semester 1</option>
+            <option>Semester 2</option>
+            <option>Semester 3</option>
+            <option>Semester 4</option>
+            <option>Semester 5</option>
+            <option>Semester 6</option>
+            <option>Semester 7</option>
+            <option>Semester 8</option>
+          </select>
 
-                <button type = "signup">Sign Up</button>
-            </div>
-            <p>Already Have An Account? <a href = "signin.html">Login</a></p>
+          <button type="button" onclick="validateForm()">Sign Up</button>
         </div>
+        <p>Already Have An Account? <a href="signin.html">Login</a></p>
+      </div>
     </div>
-     <div class = "left">
-            <img src = "girl.png" height = "1000px">
-            
+    <div class="left">
+      <img src="girl.png" height="1000px" />
     </div>
-</body>
+    <script src="signup.js"></script>
+  </body>
 </html>
