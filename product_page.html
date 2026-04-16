@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel=stylesheet href="product_page.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">LIBRIS</div>
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search for books or authors...">
+            </form>
+        </div>
+
+        <div class="nav-right">
+            <span style="font-size: 20px;">IIT Patna Study Material Exchange</span>
+            <form action="/logout" method="GET">
+                <button class="logout" style="font-size: 15px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <button class="menu active">Today's Recommendation</button> <br><br>
+            <button class="menu">Your Requests</button> <br><br>
+            <button class="menu">Ongoing Exchanges</button> <br><br>
+            <button class="menu">Your Trade History</button> <br><br>
+            <button class="menu">Profile</button>
+
+
+        </div>
+
+
+        <div class="main">
+            <h1 class="subtitle">Welcome {{ name }}</h1>
+            <h3 class="subtitle">Exchange books with ease</h3>
+
+            <h1>Book Details</h1>
+            <div class="product-box">
+                <div class="product-img">
+                    <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWE18vW5Wfr0XBJIcOgp7t9d_QzWq5Nd2rww&s
+                        width="150px">
+                </div>
+
+                <div class = "prduct-details">
+                    <h2>{{BOOK NAME}}</h2>
+
+                    <p><b>Author:</b><span id = "book-author">{{AUTHOR NAME}}</span></p>
+                    <p><b>Description:</b></p>
+                    <p id = "book-desc">
+                        The book is "{{Book Name}}" by "{{Autor's Name}}". It is specialized academic textbook primarily designed for IT students. The book serves as a comprehensive guide for those looking to understand the foundational and practical aspects of tech. This book is specifically designed for those students who wants very understanding languages to read the topic.
+                    </p>
+                    <p><b>Tokens:</b>
+                        <span id = "book-tokens">{{Token}}</span>
+                    </p>
+                    <button class = "request-btn">Request Book</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
