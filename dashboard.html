@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel=stylesheet href="static/dashboard.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">LIBRIS</div>
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search for books or authors...">
+            </form>
+        </div>
+
+        <div class="nav-right">
+            <span style="font-size: 20px;">IIT Patna Study Material Exchange</span>
+            <form action="/logout" method="GET">
+                <button class="logout" style="font-size: 15px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <button class="menu active">Today's Recommendation</button> <br><br>
+            <button class="menu">Your Requests</button> <br><br>
+            <button class="menu">Ongoing Exchanges</button> <br><br>
+            <button class="menu">Your Trade History</button> <br><br>
+            <button class="menu">Profile</button>
+
+
+        </div>
+
+
+        <div class="main">
+            <h1 class="subtitle">Welcome {{ name }}</h1>
+            <h3 class="subtitle">Exchange books with ease</h3>
+
+            <h1>Today's Recommendation</h1>
+            <div class="bats">
+                <div class="bat">
+                    <img src=https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWE18vW5Wfr0XBJIcOgp7t9d_QzWq5Nd2rww&s
+                        width="150px">
+                    <h4>Computer Networks</h4>
+                    <p>Chiranjeet Singh</p>
+                    <p class="tokens">500 tokens</p>
+                </div>
+
+                <div class="bat">
+                    <img src=https://m.media-amazon.com/images/I/514zA4XTRVL._UF1000,1000_QL80_.jpg width="150px">
+                    <h4>Hacking the Hacker</h4>
+                    <p>Roger A. Grimes</p>
+                    <p class="tokens">400 tokens</p>
+                </div>
+
+                <div class="bat">
+                    <img src="static/data.jpeg" width="150px">
+                    <h4>Data Analytics</h4>
+                    <p>Sidhant Sharma</p>
+                    <p class="tokens">600 tokens</p>
+                </div>
+
+                <div class="bat">
+                    <img src=https://santrapub.com/cdn/shop/products/SPPL_33_Front_600x600.jpg?v=1619501595
+                        width="150px">
+                    <h4>Engineering Mathematics</h4>
+                    <p>Dr.Subhojeet Jana</p>
+                    <p class="tokens">500 tokens</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

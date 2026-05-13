@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Page</title>
+    <link rel = stylesheet href = "request.css">
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel=stylesheet href="static/dashboard.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">LIBRIS</div>
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search for books or authors...">
+            </form>
+        </div>
+
+        <div class="nav-right">
+            <span style="font-size: 20px;">IIT Patna Study Material Exchange</span>
+            <form action="/logout" method="GET">
+                <button class="logout" style="font-size: 15px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <button class="menu active">Today's Recommendation</button> <br><br>
+            <button class="menu">Your Requests</button> <br><br>
+            <button class="menu">Ongoing Exchanges</button> <br><br>
+            <button class="menu">Your Trade History</button> <br><br>
+            <button class="menu">Profile</button>
+
+
+        </div>
+
+
+        <div class="main">
+            <h1 class="subtitle">Your Requests {{ name }}</h1>
+            <h3 class="subtitle">Books you have requested</h3>
+            <button class = "add-buttn">+ Add New Request</button>
+
+            <div class="bats">
+                <div class="bat">
+                    <img src=https://gkpublications.com/cdn/shop/files/PracticalHandbookofMachineLearningforBeginnersNoCodingorAdvancedMathRequiredStep-by-StepGuidewithPythonBasics_Hands-OnExercises_Real-WorldApplications_VideoSupport.jpg width="150px">
+                    <h4>HandBook for Machine Learning</h4>
+                    <p>Sujit Bhattacharyya</p>
+                    <p>Date: 7 April 2026</p>
+                    <span class = "status">Pending</span>
+                    <button class = "cancel-button">Cancel</button>
+                </div>
+
+                <div class="bat">
+                    <img src=https://m.media-amazon.com/images/I/81FijplDrtL.jpg width="150px">
+                    <h4>Ethical Hacking</h4>
+                    <p>Daniel G. Graham</p>
+                    <p >Date: 1 April 2026</p>
+                    <span class = "status">Matched</span>
+                    <button class = "cancel-button">Cancel</button>
+                </div>
+
+                <div class="bat">
+                    <img src="data.jpeg" width="150px">
+                    <h4>Data Analytics</h4>
+                    <p>Sidhant Sharma</p>
+                    <p >Date:20 March 2026</p>
+                    <span class = "status">Pending</span>
+                    <button class = "cancel-button">Cancel</button>
+                </div>
+
+                <div class="bat">
+                    <img src= https://m.media-amazon.com/images/I/81QyrLCQsuL._UF1000,1000_QL80_.jpg  width="150px">
+                    <h4>Genrative AI for Beginners</h4>
+                    <p>David M. Patel</p>
+                    <p >Date: 15 April 2026</p>
+                    <span class = "status">Matched</span>
+                    <button class = "cancel-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+</body>
+</html>
