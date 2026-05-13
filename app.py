@@ -42,7 +42,7 @@ def signin():
             else:
                 return render_template('signin.html', error_message="Incorrect Password !")
 
-@app.route('/profile', method=['GET'])
+
             
 @app.route('/home', methods=['GET'])
 def home():
