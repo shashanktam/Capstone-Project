@@ -1,0 +1,375 @@
+body {
+    margin :0;
+    font-family:arial sans-serif;
+    background: rgb(207, 198, 198);
+}
+
+.navbar{
+    background:rgb(92, 73, 73);
+    color : white;
+    padding:20px 40px;
+    display : flex;
+    justify-content : space-between;
+    align-items: center;
+    border-bottom: 3px solid white;
+}
+.logo{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.nav-right{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.logout{
+    background:rgb(33, 33, 219);
+    border: none;
+    padding: 10px 20px;
+    color: rgb(235, 235, 235);
+    border-radius: 5px;
+    cursor:pointer;
+    
+}
+.logout:hover{
+    background :rgb(255, 0, 0);
+}
+
+.search-container {
+    display: flex; /* Matches your Modular Flexbox approach  */
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent for dark header */
+    border-radius: 25px; /* Rounded pill shape for a modern feel */
+    padding: 5px 15px;
+    
+    width: 1000px;
+    transition: all 0.3s ease;
+}
+
+/* Styling the actual text input */
+.search-container input {
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px;
+    width: 100%;
+    outline: none; /* Removes the default blue outline */
+    font-size: 0.95rem;
+}
+
+/* Placeholder color to match the subtle grey theme [cite: 118] */
+.search-container input::placeholder {
+    color: #ccc;
+}
+
+
+/* Interactive Feedback */
+.search-container:focus-within {
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.search-container button:hover {
+    transform: scale(1.1); /* Subtle "pop" effect */
+}
+
+
+
+
+.container{
+    display:flex;
+    
+}
+
+.sidebar{
+    width:200px;
+    background:rgb(197, 184, 152);
+    padding:20px;
+    height:100vh;
+    border-right:1px solid rgb(232, 208, 167); 
+}
+.menu{
+    padding:12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    background:rgb(237, 185, 53);
+    color:rgb(0, 0, 0);
+    
+}
+.menu:hover{
+    background:lightblue;
+   
+}
+
+
+.active{
+    background:rgb(237, 185, 53);
+    color:rgb(109, 15, 15);
+}
+
+.main{
+    flex:1;
+    padding:30px;
+    max-width:1500px;
+}
+
+.subtitle{
+    color:rgb(2, 51, 76);
+}
+.main h3{
+    margin-top:30px;
+    border-bottom : 2px solid #add;
+    padding-bottom: 5px;
+}
+
+/* The Container: This creates the horizontal rows */
+.bats {
+    display: grid;
+    /* This is the key: it creates as many 250px columns as can fit */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px; 
+    width: 100%;
+    margin-top: 20px;
+    align-items: start;
+}
+
+/* The Individual Card: It will now stay within its grid cell */
+.bat {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #add;
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.1);
+    transition: 0.3s ease;
+    
+    /* Ensures the card doesn't stretch vertically if one is taller than the others */
+    height: auto; 
+}
+
+/* Ensure images don't break the layout */
+.bat img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.bat:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 128, 0, 0.25);
+}
+
+
+
+.bat img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:5px;
+}
+
+.bat h4{
+    margin: 10px 0 5px;
+}
+
+.bat a {
+    text-decoration: none; 
+    color: inherit;        
+    display: block;        
+}
+
+.bat a:hover {
+    opacity: 0.8;
+    transition: 0.3s;
+}
+
+.tokens{
+    color: goldenrod;
+    font-weight:bold;
+    border-top: 1px solid #add;
+    padding-top: 6px;
+}
+
+.add-buttn{
+    margin-top:10px;
+    padding:10px 15px;
+    background:lightyellow;
+    color: green;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+} 
+.add-buttn:hover{
+    background: goldenrod;
+}
+
+.status{
+    margin-top:10px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight : bold;
+    color: green;
+}
+.status.pending{
+    background:orange;
+    color: yellow;
+}
+.status.matched{
+    background: green;
+    color:orange;
+}
+.cancel-button{
+    background: lime;
+    color: darkred;
+    border:none;
+    padding:6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+} 
+.cancel-button:hover{
+    background: lightblue;
+}
+
+.subtitle{
+    color:rgb(2, 51, 76);
+}
+
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 800px; 
+    width: 100%; 
+    box-shadow: 0 4px 12px rgba(0, 128, 0, 0.15); 
+}
+
+.form label{
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+form input, form textarea{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+textarea{
+    height:80px;
+}
+
+.submit-btn{
+    margin-top:20px;
+    width:100%;
+    padding: 10px;
+    background:green;
+    color:white;
+    border:none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+   
+.submit-btn:hover{
+    background:blue;
+}
+
+/* Container Styling */
+.product-box {
+    display: flex;
+    gap: 50px;
+    background: #ffffff; 
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 128, 0, 0.08); 
+    margin-top: 20px;
+    align-items: flex-start; 
+
+    max-width: 900px;  /* Stops the box from growing endlessly */
+    width: 100%;       /* Ensures it still shrinks on mobile screens */
+    margin: 40px; /* The 'auto' pushes equally from left and right, centering the box */
+}
+
+/* Image Styling */
+.product-img {
+    flex-shrink: 0; 
+}
+
+.product-img img {
+    width: 280px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+}
+
+/* Text & Details Styling */
+.product-details {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+}
+
+.product-details h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #1a1a1a;
+    font-size: 28px;
+}
+
+.author-tag {
+    color: #000000;
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #add; /* Matches your theme's cyan border */
+    margin: 15px 0;
+}
+
+.desc-section {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* Emphasize the Economy */
+.price-tag {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.token-value {
+    color: #e6a800; /* Golden color for tokens */
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/* The Call to Action (Button) */
+.request-btn {
+    background: #008000; /* Institutional Green */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.2);
+}
+
+.request-btn:hover {
+    background: #006600;
+    transform: translateY(-2px); /* Satisfying lift effect on hover */
+    box-shadow: 0 6px 14px rgba(0, 128, 0, 0.3);
+}

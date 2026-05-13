@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel=stylesheet href = "static/add.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">LIBRIS</div>
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search for books or authors...">
+            </form>
+        </div>
+
+        <div class="nav-right">
+            <span style="font-size: 20px;">IIT Patna Study Material Exchange</span>
+            <form action="/logout" method="GET">
+                <button class="logout" style="font-size: 15px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <button class="menu active">Today's Recommendation</button> <br><br>
+            <button class="menu">Your Requests</button> <br><br>
+            <button class="menu">Ongoing Exchanges</button> <br><br>
+            <button class="menu">Your Trade History</button> <br><br>
+            <button class="menu">Profile</button>
+
+
+        </div>
+
+
+        <div class="main">
+            <h1 class="subtitle">ADD New Book</h1>
+            <h3 class="subtitle">Enter book details</h3>
+            <div class="form-box">
+                <form>
+                    <label>Book Name</label>
+                    <input type= "text" placeholder = "Enter book name">
+                    <label>Author Name</label>
+                    <input type= "text" placeholder = "Enter author name">
+                    <label>Tokens</label>
+                    <input type= "number" placeholder = "Enter tokens">
+                    <label>Description</label>
+                    <textarea placeholder = "Write description"></textarea>
+                    <label>Upload Image</label>
+                    <input type = "file">
+                    <button class = "submit-btn">Add Book</button>
+                </form>
+               
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

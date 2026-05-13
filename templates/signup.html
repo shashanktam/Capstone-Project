@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel = "stylesheet" href = "static/signup.css">
+</head>
+<body>
+    <div class = "left">
+            <img src = "static/boy.png" height = "1000px">
+
+    </div>
+    <div class = "main">
+        
+        <div class = "right">
+            <h1 >LIBRIS</h1>
+            <img src = "static/logo.png" class = "logo" width = "150px" >
+            <h2>IIT Patna Study Material Exchange</h2>
+
+            <h2>Create Account</h2>
+            <form action="/signup" method="POST" onsubmit="return validateForm()">
+            <div class = "input-container">
+                <input id = "name" name = "name" type = "text" placeholder = "Enter Name" required> 
+
+                <input id = "email" name = "email" type = "email" placeholder = "Enter Email Id " required>
+
+                <input id = "password" name = "password" type = "password" placeholder = "Enter Password" required>
+                <div id="strengthBar"></div>
+
+                <input id = "confirmPassword" name = "confirmPassword" type = "password" placeholder = "Confirm Password" required>
+
+                <p>Date Of Birth</p>
+                <input type = "date" name = "dob" required>
+                
+                <div class = "gender">
+                    <label>Gender:</label>
+                    <label style="margin: 20px;"><input type = "radio" name = "gender" id="male" value="male"> Male</label>
+                    <label style="margin: 20px;"><input type = "radio" name = "gender" id="female" value="female"> Female</label>
+                    <label style="margin: 20px;"><input type = "radio" name = "gender" id="other" value="other"> Other</label>
+                </div>
+
+            
+
+                <label>Branch</label>
+                <select name = "branch">
+                    <option>BS AICS</option>
+                    <option>BS-MS AICS</option>
+                    <option>BS CSDA</option>
+                    <option>BS MS CSDA</option> 
+                    <option>BBA</option>
+                    <option>MBA</option>
+
+                </select>
+                <label>Semester</label>
+                <select name = "semester">
+                    <option>Semester 1</option>
+                    <option>Semester 2</option>
+                    <option>Semester 3</option>
+                    <option>Semester 4</option> 
+                    <option>Semester 5</option>
+                    <option>Semester 6</option>
+                    <option>Semester 7</option>
+                    <option>Semester 8</option>
+                    
+                </select>
+
+                <button type = "submit" >Sign Up</button>
+            </div>
+            </form>
+            <p>Already Have An Account? <a href = "/">Login</a></p>
+        </div>
+    </div>
+     <div class = "left">
+            <img src = "static/girl.png" height = "1000px">
+            
+    </div>
+    <script src="static/signup.js"></script> 
+</body>
+</html>

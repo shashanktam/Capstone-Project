@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBRIS - IIT Patna Study Material Exchange</title>
+    <link rel = "stylesheet" href ="static/signin.css">
+</head>
+<body>
+    <div class="horizontal-wrapper">
+        <img src = "static/boy.png" class = "leftimg">
+        <div class="form-card">
+            <div class="header">
+                <h1 style="font-family:Arial">LIBRIS </h1>
+                <img src = "static/logo.png" class = "logo" >
+                <h2 style="margin:0px; font-family:Arial">IIT Patna Study Material Exchange </h2>
+            </div>
+            <div class="main">
+                <form action="/" method="POST">
+                    <input name = "name" type = "text" placeholder = "Enter Name" required> 
+
+
+                    <input name = "email" type = "email" placeholder = "Enter Email id " required>
+
+
+                    <input name = "password" type = "password" placeholder = "Enter Password" required>
+
+
+                    <a href="/home"><button type = "signin" class="btn-up">Sign In</button></a>
+                </form>
+            </div>
+                <a href="/signup">Don't have an account? Sign Up</a>
+                <p>{{error_message}}</p>
+            
+        </div>
+
+        <img src = "static/girl.png" class = "rightimg">
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">LIBRIS</div>
+        <div class="search-container">
+            <form action="/search" method="GET">
+                <input type="text" name="query" placeholder="Search for books or authors...">
+            </form>
+        </div>
+
+        <div class="nav-right">
+            <span style="font-size: 20px;">IIT Patna Study Material Exchange</span>
+            <form action="/logout" method="GET">
+                <button class="logout" style="font-size: 15px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+
+            <a href="/home"><button class="menu">Today's Recommendation</button></a> <br><br>
+            <a href="/requests"><button class="menu">Your Requests</button></a> <br><br>
+            <a href="/resources"><button class="menu">Your Resources</button></a> <br><br>
+            <a href="/trade-history"><button class="menu">Your Trade History</button></a> <br><br>
+            <a href="/profile"><button class="menu">Profile</button></a>
+
+
+        </div>
+
+        <div class="main">
+            {% if req == "Home" %}
+                <h1 class="subtitle">Welcome {{ name }}</h1>
+                <h3 class="subtitle">Exchange books with ease</h3>
+
+                <h1>Today's Recommendation</h1>
+                <div class="bats">
+                    {% for product in products %}
+                    <div class="bat">
+                        <a href="/products/{{product.res_id}}">
+                            <img src="static/uploads/products/{{product.img}}" width="150px">
+                            <h4>{{product.title}}</h4>
+                            <p>{{product.author}}</p>
+                            <p class="tokens">{{product.token}} tokens</p>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+    
+            {% elif req == "Requests" %}
+                <div class="main">
+                <h1 class="subtitle">Your Requests</h1>
+                <h3 class="subtitle">Books you have requested</h3>
+                <a href="/requests/add"><button class = "add-buttn">+ Add New Request</button></a>
+
+                <div class="bats">
+                    {% if u_requests %}
+                        {% for req in u_requests %}
+                            <div class="bat">
+                                <a href="/requests/{{req.id}}">
+                                    <img src="static/uploads/requests/{{req.img}}" width="150px">
+                                    <h4>{{req.title}}</h4>
+                                    <p>{{req.author}}</p>
+                                    <p>Date: {{req.date.strftime('%d %B %Y')}}</p>
+                                </a>    
+                                <span class = "status">{{req.status}}</span>
+                                <form action="/requests/{{req.req_id}}/cancel" method="POST">
+                                    <button class = "cancel-button">Cancel</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                            <h2>No Requests at the moment !</h2>
+                    {% endif %}
+                    
+                    <p><b>{{msg}}</b></p>
+                </div>
+            {% elif req == "add" %}
+                <div class="main">
+                    <h1 class="subtitle">ADD New Resource</h1>
+                    <h3 class="subtitle">Enter Resource details</h3>
+                    <div class="form-box">
+                        <form action="/resources/add" method="POST" enctype="multipart/form-data">
+                            <label>Resource Name</label>
+                            <input name="res_name" type= "text" placeholder = "Enter resource name"><br><br>
+                            <label>Author Name</label>
+                            <input name="auth_name" type= "text" placeholder = "Enter author name or publication"><br><br>
+                            <label>Resource Type</label><br>
+                            <select name="res_type">
+                                <option value="book">Book</option>
+                                <option value="research_paper">Research paper</option>
+                                <option value="notes">Notes</option>
+                                <option value="other">Other</option>    
+                            </select><br><br>
+                            <label>Tokens</label>
+                            <input name="token" type= "number" placeholder = "Enter tokens"><br><br>
+                            <label>Description</label>
+                            <textarea name="desc" placeholder = "Brief description about your resource including its physical condition and condition"></textarea><br><br>
+                            <label>Upload Image</label>
+                            <input type="file" name="img" accept="image/*" required>
+                            <button type = "submit" class = "submit-btn">Add Resource</button><br><br>
+                            <p><b>{{msg}}</b></p>
+                        </form>
+                    </div>
+                </div>
+            {% elif req == "Resources" %}
+                <div class="main">
+                <h1 class="subtitle">Your Resources</h1>
+                <h3 class="subtitle">Resources you have added</h3>
+                <a href="/resources/add"><button class = "add-buttn">+ Add New Resource</button></a>
+
+                <div class="bats">
+                    {% if u_resources %}
+                        {% for res in u_resources %}
+                            <div class="bat">
+                                <a href="/products/{{res.res_id}}">
+                                    <img src="static/uploads/products/{{res.img}}" width="150px">
+                                    <h4>{{res.title}}</h4>
+                                    <p>{{res.author}}</p>
+                                    <p><strong><b>Tokens:</b> {{res.token}}</strong></p>
+                                </a>    
+                                <span class = "status">{{res.Status}}</span>
+                                <form action="/resources/{{res.res_id}}/cancel" method="POST">
+                                    <button class = "cancel-button">Cancel</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                            <h2>No Resources at the moment !</h2>
+                    {% endif %}
+                    
+                    <p><b>{{msg}}</b></p>
+                </div>
+
+            {% elif req == "product_page"%}
+                <h1 class="page-title">Resource Details</h1>
+                <div class="product-box">
+                    <div class="product-img">
+                        <img src="{{ url_for('static', filename='uploads/products/' + img) }}" alt="{{ title }}">
+                    </div>
+                    
+                    <div class="product-details">
+                        <h2>{{ title }}</h2>
+                        <p class="author-tag"><b>Author:</b> <span>{{ author }}</span></p>
+                        
+                        <hr class="divider"> <div class="desc-section">
+                            <p><h3>Description:</h3></p>
+                            <p class="book-desc">
+                                The book is <b>{{ title }}</b> by "{{ author }}". {{ desc }}
+                            </p>
+                        </div>
+                        
+                        <div class="price-tag">
+                            <strong>Tokens:</strong> <span class="token-value">{{ token }}</span>
+                        </div>
+                        
+                        <button class="request-btn">Request Book</button>
+                    </div>
+                </div>
+            {% elif req == "add-request" %}
+                <div class="main">
+                    <h1 class="subtitle">ADD New Request</h1>
+                    <h3 class="subtitle">Enter details</h3>
+                    <div class="form-box">
+                        <form action="/requests" method="POST" enctype="multipart/form-data">
+                            <label>Title</label>
+                            <input name="req_name" type= "text" placeholder = "Enter resource name" required><br><br>
+                            <label>Author</label>
+                            <input name="auth_name" type= "text" placeholder = "Enter author name or publication (if any)" ><br><br>
+                            <label>Request Type</label><br>
+                            <select name="req_type" required>
+                                <option value="book">Book</option>
+                                <option value="research_paper">Research paper</option>
+                                <option value="notes">Notes</option>
+                                <option value="other">Other</option>    
+                            </select><br><br>
+                            <label>Description</label>
+                            <textarea name="desc" placeholder = "Brief describe your request" required></textarea><br><br>
+                            <label>Upload Image (If any)</label>
+                            <input type="file" name="img" accept="image/*" >
+                            <button type = "submit" class = "submit-btn">Add Request</button><br><br>
+                        </form>
+                        <p><b></b>{{msg}}</b></p>
+                    </div>
+                </div>
+
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
