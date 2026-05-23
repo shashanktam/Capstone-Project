@@ -31,7 +31,7 @@
             <a href="/home"><button class="menu">Today's Recommendation</button></a> <br><br>
             <a href="/requests"><button class="menu">Your Requests</button></a> <br><br>
             <a href="/resources"><button class="menu">Your Resources</button></a> <br><br>
-            <a href="/trade-history"><button class="menu">Your Trade History</button></a> <br><br>
+            <a href="/manage-trades"><button class="menu">Your Trade History</button></a> <br><br>
             <a href="/profile"><button class="menu">Profile</button></a>
 
 
@@ -151,7 +151,7 @@
                     <div class="product-details">
                         <h2>{{ title }}</h2>
                         <p class="author-tag"><b>Author:</b> <span>{{ author }}</span></p>
-                        
+                        <p><strong>Provided By:</strong> <span>{{ owner }}</span></p>
                         <hr class="divider"> <div class="desc-section">
                             <p><h3>Description:</h3></p>
                             <p class="book-desc">
@@ -162,8 +162,9 @@
                         <div class="price-tag">
                             <strong>Tokens:</strong> <span class="token-value">{{ token }}</span>
                         </div>
-                        
-                        <button class="request-btn">Request Book</button>
+                        <form action="/request-book/{{ res_id }}" method="POST">
+                            <button class="request-btn">Request Book</button>
+                        </form>
                     </div>
                 </div>
             {% elif req == "add-request" %}
@@ -191,6 +192,163 @@
                         </form>
                         <p><b></b>{{msg}}</b></p>
                     </div>
+                </div>
+            {% elif req == "profile" %}
+                <div class="profile-card identity-card">
+                    <div class="avatar-circle">
+                        {{ user.name[0].upper() }}
+                    </div>
+                    <h2>{{ user.name }}</h2>
+                    <p class="role-badge">Student - IIT Patna</p>
+                    
+                    <div class="balance-box">
+                        <i class="fa-solid fa-coins"></i>
+                        <h3>{{ user.credits }} Tokens</h3>
+                        <p>Available Balance</p>
+                    </div>
+                    <h3>Academic Profile</h3>
+                    <hr>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Email</label>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Branch</label>
+                            <p>{{ user.branch }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Semester</label>
+                            <p>{{ user.semester }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <p>{{ user.gender }}</p>
+                        </div>
+                        
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Platform Impact</h3>
+                    <hr>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h4>{{ active_listings }}</h4>
+                            <p>Active Listings</p>
+                        </div>
+                        <div class="stat-box highlighted">
+                            <h4>{{ completed_trades }}</h4>
+                            <p>Books Traded</p>
+                        </div>
+                    </div>
+                </div>
+            {% elif req == "manage-trades" %}
+                <div class="trades-container" style="max-width: 1000px; margin: 40px auto; padding: 20px;">
+    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="flash-alert flash-{{ category }}">
+                                    <strong>{{ message }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <h2 style="color: #3d312a; border-bottom: 3px solid #3498db; display: inline-block; padding-bottom: 5px;">Action Required: Approvals</h2>
+    
+                        <div class="trades-grid" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px; margin-bottom: 40px;">
+                            {% if not incoming %}
+                                <p style="color: #888; font-style: italic;">No pending requests for your resources.</p>
+                            {% else %}
+                                {% for r in incoming %}
+                                    <div class="trade-card" style="display: flex; justify-content: space-between; align-items: center; background: #ebf5fb; padding: 20px; border-radius: 8px; border-left: 5px solid #3498db;">
+                                        <div class="trade-info">
+                                            <h3 style="margin: 0; color: #333;">{{ r.requester_name }} requested your book!</h3>
+                                            <p style="margin: 5px 0 0 0; color: #666;">Request ID: #{{ r.req_id }}</p>
+                                        </div>
+
+                                        <div class="trade-actions" style="display: flex; gap: 10px;">
+                                            <form action="/approve-request/{{ r.req_id }}" method="POST">
+                                                <button type="submit" style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                                    <i class="fa-solid fa-check"></i> Approve Trade
+                                                </button>
+                                            </form>
+
+                                            <form action="/reject-request/{{ r.req_id }}" method="POST">
+                                                <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                                    <i class="fa-solid fa-xmark"></i> Reject
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                    <h2 style="color: #3d312a; border-bottom: 3px solid #f1c40f; display: inline-block; padding-bottom: 5px;">Ongoing Trades</h2>
+                    
+                    <div class="trades-grid" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px; margin-bottom: 50px;">
+                        {% if not ongoing %}
+                            <div style="background: #f8f9fa; padding: 30px; text-align: center; border-radius: 8px; color: #888;">
+                                <i class="fa-solid fa-box-open" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <p>You have no ongoing requests right now.</p>
+                                <a href="/home" style="color: #3d312a; font-weight: bold;">Browse the Marketplace</a>
+                            </div>
+                        {% else %}
+                            {% for r in ongoing %}
+                                <div class="trade-card" style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                                    <div class="trade-info">
+                                        <h3 style="margin: 0; color: #333;">Request #{{ r.req_id }}</h3>
+                                        <p style="margin: 5px 0 0 0; color: #666;">Status: 
+                                            <span style="font-weight: bold;" class="{% if r.status == 'Pending' %}text-pending{% else %}text-success{% endif %}">
+                                                {{ r.status }}
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                    <div class="trade-actions">
+                                        {% if r.status == 'Pending' %}
+                                            <form action="/cancel-request/{{ r.req_id }}" method="POST">
+                                                <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Cancel Request</button>
+                                            </form>
+                                        {% elif r.status == 'Matched' %}
+                                            <form action="/complete-trade/{{ r.req_id }}" method="POST">
+                                                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Mark as Received</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <h2 style="color: #3d312a; border-bottom: 3px solid #bdc3c7; display: inline-block; padding-bottom: 5px;">Trade History</h2>
+                    
+                    <div class="trades-grid" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                        {% if not history %}
+                            <p style="color: #888; font-style: italic;">Your completed trades will appear here.</p>
+                        {% else %}
+                            {% for trade in history %}
+                                <div class="trade-card history" style="display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 15px 20px; border-radius: 8px; border: 1px solid #eee;">
+                                    <div class="trade-info">
+                                        <h4 style="margin: 0; color: #555;">Ledger ID: {{ trade.t_id }}</h4>
+                                        <p style="margin: 5px 0 0 0; font-size: 0.85rem; color: #aaa;">
+                                            {% if trade.receiver_id == session['u_id'] %}
+                                                You Acquired this Book
+                                            {% else %}
+                                                You Provided this Book
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    
+                                    <div style="color: #f39c12; font-weight: bold; text-align: right;">
+                                        {{ trade.tokens_exchanged }} Tokens <br>
+                                        <span style="font-size: 0.75rem; color: #888;"><i class="fa-solid fa-check-circle"></i> Completed</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
                 </div>
 
             {% endif %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from models import *
 import os
 
@@ -50,7 +50,7 @@ def home():
     mail = session.get("mail",None)
     pwd = session.get("pwd",None)
 
-    recommend = Resource.query.all()
+    recommend = Resource.query.filter_by(Status='Available').all()
     if name:
         return render_template('dashboard.html',name=name,req="Home",products=recommend)
     else:
@@ -132,12 +132,14 @@ def add():
 @app.route('/products/<res_id>',methods=['GET','POST'])
 def product(res_id):
     prod = Resource.query.filter_by(res_id=res_id).first()
+    res_id = prod.res_id
     title = prod.title
     author = prod.author
     desc = prod.Description
     token = prod.token
     img = prod.img
-    return render_template('dashboard.html', req="product_page", title=title, author=author, desc=desc, token=token, img=img)  
+    owner = User.query.filter_by(user_id=prod.owner_id).first()
+    return render_template('dashboard.html', req="product_page", res_id=res_id, title=title, author=author, desc=desc, token=token, img=img, owner=owner.name)  
 
 @app.route('/resources/<res_id>/cancel', methods=['POST'])
 def res_cancel(res_id):
@@ -232,6 +234,225 @@ def req_cancel(id):
     db.session.commit()
     return redirect(url_for('requests'))
 
+@app.route('/profile', methods=['GET','POST'])
+def profile():
+    if request.method == 'GET':
+        user = User.query.get(session["u_id"])
+        active_l = Resource.query.filter_by(owner_id=session['u_id']).count()
+        t_comp = Trades.query.filter(
+                    (Trades.provider_id == session['u_id']) | (Trades.receiver_id == session['u_id'])
+                        ).count()
+        return render_template('dashboard.html', req='profile', user=user, active_listings=active_l, completed_trades=t_comp)
+    
+@app.route('/approve-request/<int:req_id>', methods=['POST'])
+def approve_request(req_id):
+    if 'u_id' not in session:
+        return redirect(url_for('signin'))
+
+    try:
+        # Fetch the request and the attached resource
+        trade_request = Requests.query.get(req_id)
+        resource = Resource.query.get(trade_request.res_id)
+
+        # Security Check: Ensure the person clicking approve is the actual owner of the book!
+        if resource.owner_id != session['u_id']:
+            flash('Unauthorized: You do not own this resource.', 'error')
+            return redirect(url_for('manage_trades'))
+
+        # Update the status to lock in the match
+        trade_request.status = 'Matched'
+        db.session.commit()
+        
+        flash('Trade approved! Waiting for the requester to confirm receipt.', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        flash('An error occurred while approving. Please try again.', 'error')
+        print(f"Approval Error: {e}")
+
+    return redirect(url_for('manage_trades'))
+
+@app.route('/reject-request/<int:req_id>', methods=['POST'])
+def reject_request(req_id):
+    if 'u_id' not in session:
+        return redirect(url_for('signin'))
+
+    try:
+        # Fetch the request and the attached resource
+        trade_request = Requests.query.get(req_id)
+        resource = Resource.query.get(trade_request.res_id)
+
+        # Security Check: Only the owner can reject the request
+        if resource.owner_id != session['u_id']:
+            flash('Unauthorized: You do not own this resource.', 'error')
+            return redirect(url_for('manage_trades'))
+
+        # 1. Update the request status so the requester knows what happened
+        trade_request.status = 'Rejected'
+        
+        # 2. Free up the book so it appears in the marketplace again
+        resource.status = 'Available' 
+
+        # Commit changes
+        db.session.commit()
+        
+        flash('Request rejected. The book is back in the public marketplace.', 'success')
+
+    except Exception as e:
+        db.session.rollback()
+        flash('An error occurred while rejecting. Please try again.', 'error')
+        print(f"Rejection Error: {e}")
+
+    return redirect(url_for('manage_trades'))
+
+@app.route('/manage-trades')
+def manage_trades():
+    if 'u_id' not in session:
+        return redirect(url_for('signin'))
+
+    current_user_id = session['u_id']
+
+    # 1. OUTGOING: Books I want from others
+    outgoing_requests = Requests.query.filter(
+        Requests.requestor_id == current_user_id,
+        Requests.status.in_(['Pending', 'Matched'])
+    ).all()
+
+    # 2. INCOMING: People who want MY books
+    my_resources = Resource.query.filter_by(owner_id=current_user_id).all()
+    my_resource_ids = [r.res_id for r in my_resources]
+    
+    incoming_requests = Requests.query.filter(
+        Requests.res_id.in_(my_resource_ids),
+        Requests.status == 'Pending'
+    ).all()
+    for req in incoming_requests:
+        requester = User.query.get(req.requestor_id)
+        # We attach a temporary variable 'requester_name' to the object
+        req.requester_name = requester.name if requester else "Unknown User"
+
+    # 3. HISTORY: Completed Trades
+    trade_history = Trades.query.filter(
+        (Trades.receiver_id == current_user_id) | (Trades.provider_id == current_user_id)
+    ).order_by(Trades.t_id.desc()).all()
+
+    return render_template('dashboard.html', 
+                           req='manage-trades',
+                           ongoing=outgoing_requests, 
+                           incoming=incoming_requests, 
+                           history=trade_history)
+
+@app.route('/request-book/<int:res_id>', methods=['POST'])
+def request_book(res_id):
+    # Security: Ensure user is logged in
+    if 'u_id' not in session:
+        return redirect(url_for('signin'))
+    
+    current_user_id = session['u_id']
+    
+    # Fetch the relevant database objects
+    requester = User.query.get(current_user_id)
+    resource = Resource.query.get(res_id)
+    provider = User.query.get(resource.owner_id)
+
+    # --- Pre-Transaction Validation Checks ---
+    if not resource or resource.Status != 'Available':
+        flash('This resource is no longer available.', 'error')
+        return redirect(url_for('dashboard'))
+        
+    if resource.owner_id == current_user_id:
+        flash('You cannot request your own book!', 'error')
+        return redirect(url_for('dashboard'))
+
+    if requester.credits < resource.token:
+        flash('Insufficient tokens to complete this request.', 'error')
+        return redirect(url_for('dashboard'))
+
+    # --- The Atomic Transaction Engine ---
+    try:
+
+        # Step 2: Update the resource status so no one else can buy it
+        resource.Status = 'Pending' 
+
+        # Step 3: Create the official log in the Requests table
+        new_request = Requests(
+            requestor_id=current_user_id, 
+            res_id=resource.res_id, 
+            title=resource.title,               
+            type=resource.type,      
+            author=resource.author,           
+            Description=resource.Description, 
+            status='Pending'
+        )
+        db.session.add(new_request)
+
+        # Step 4: Commit all changes to the database AT ONCE
+        db.session.commit()
+        flash('Request successful! Tokens have been transferred.', 'success')
+
+    except Exception as e:
+        # If ANYTHING fails above, undo everything!
+        db.session.rollback()
+        flash('A network error occurred. Your tokens are safe. Please try again.', 'error')
+        print(f"Transaction Error: {e}") 
+
+    return redirect(url_for('manage_trades'))
+
+@app.route('/complete-trade/<int:req_id>', methods=['POST'])
+def complete_trade(req_id):
+    # Security: Ensure user is logged in
+    if 'u_id' not in session:
+        return redirect(url_for('signin'))
+
+    current_user_id = session['u_id']
+
+    try:
+        # 1. Fetch the necessary database objects
+        trade_request = Requests.query.get(req_id)
+        resource = Resource.query.get(trade_request.res_id)
+        provider = User.query.get(resource.owner_id)
+        receiver = User.query.get(trade_request.requestor_id)
+
+        # Pre-Transaction Validation
+        if not trade_request or trade_request.status != 'Matched':
+            flash('Invalid request or already completed.', 'error')
+            return redirect(url_for('manage_trades'))
+
+        # Security Check: Only the person receiving the book can confirm they got it!
+        if current_user_id != receiver.user_id:
+            flash('Unauthorized: Only the receiver can confirm this trade.', 'error')
+            return redirect(url_for('manage_trades'))
+
+        # --- THE ATOMIC TRANSACTION ---
+        
+        # Step 2: Transfer the tokens
+        receiver.credits -= resource.token
+        provider.credits += resource.token
+
+        # Step 3: Write to the permanent Ledger (Your new Trades table!)
+        new_trade_log = Trades(
+            res_id=resource.res_id,
+            provider_id=provider.user_id,
+            receiver_id=receiver.user_id,
+            tokens_exchanged=resource.token
+        )
+        db.session.add(new_trade_log)
+
+        # Step 4: Update the statuses to remove them from the active marketplace
+        trade_request.status = 'Completed'
+        resource.Status = 'Traded' 
+
+        # Step 5: Commit EVERYTHING to the database at once
+        db.session.commit()
+        flash('Trade successful! Tokens have been transferred and the ledger updated.', 'success')
+
+    except Exception as e:
+        # If any step above fails (e.g., database crash), wipe the slate clean
+        db.session.rollback()
+        flash('Transaction failed. Your tokens are safe.', 'error')
+        print(f"Ledger Transaction Error: {e}") 
+
+    return redirect(url_for('manage_trades'))
         
 @app.route('/logout', methods=['GET'])
 def logout():

@@ -373,3 +373,162 @@ textarea{
     transform: translateY(-2px); /* Satisfying lift effect on hover */
     box-shadow: 0 6px 14px rgba(0, 128, 0, 0.3);
 }
+
+
+
+.profile-card {
+    background: lightgray;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex; 
+    gap: 30px; 
+    align-items: flex-start;
+    text-align: left; 
+}
+
+.right-section {
+    flex: 1;
+}
+
+
+
+.profile-container {
+    display: flex;
+    flex-direction: column; /* Stacks the two main cards vertically */
+    gap: 30px;              /* Space between the top card and bottom card */
+    max-width: 800px;       /* Shrink the width a bit so it doesn't look too stretched */
+    margin: 40px auto;      /* Keeps the whole column centered on the screen */
+}
+
+
+/* General styling for both cards */
+.profile-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 30px;
+}
+
+.identity-card {
+    display: flex;
+    flex-direction: column; /* The magic line that makes it vertical */
+    align-items: center;    /* Centers everything horizontally */
+    justify-content: center;
+    text-align: center;
+    gap: 15px;              /* Adds nice breathing room between the items */
+    padding: 30px;
+}
+
+/* The round initial avatar */
+.avatar-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #3d312a;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 4px 10px rgba(61, 49, 42, 0.3);
+}
+
+.role-badge {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+/* The Gold Token Box */
+.balance-box {
+    background: linear-gradient(135deg, #f1c40f, #f39c12);
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.balance-box i { font-size: 24px; margin-bottom: 10px;}
+.balance-box h3 { margin: 0; font-size: 1.5rem; }
+.balance-box p { margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.9;}
+
+/* Right Card (Details) */
+.details-card {
+    flex: 2; /* Takes up 2 parts of the space (wider) */
+}
+
+.details-card h3 { color: #3d312a; margin-bottom: 10px;}
+.details-card hr { border: 0; border-top: 1px solid #eee; margin-bottom: 20px;}
+
+/* CSS Grid for the text info */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px;
+}
+
+.info-item label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-item p {
+    margin: 5px 0 0 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Stats Row */
+.stats-grid {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-box {
+    flex: 1;
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.stat-box.highlighted {
+    background-color: #fcf8e3; /* Slight yellow tint */
+    border-color: #faebcc;
+}
+
+.stat-box h4 { margin: 0; font-size: 2rem; color: #3d312a; }
+.stat-box p { margin: 5px 0 0 0; color: #666; }
+
+
+/* Base styles for all flash messages */
+.flash-alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Specific color for errors */
+.flash-error {
+    background-color: #e74c3c;
+}
+
+/* Specific color for successes */
+.flash-success {
+    background-color: #27ae60;
+}
+
+.text-pending {
+    color: #e67e22; /* Orange */
+}
+
+.text-success {
+    color: #27ae60; /* Green */
+}
